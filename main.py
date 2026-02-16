@@ -9,6 +9,21 @@ log_reg = joblib.load('model (6).pkl')
 tree = joblib.load('tree_model.pkl')
 scaler = joblib.load('scaler (6).pkl')
 
+cap_shape_list = ["c", "f", "k", "s", "x"]
+cap_surface_list = ["g", "s", "y"]
+cap_color_list = ["c", "e", "g", "n", "p", "r", "u", "w", "y"]
+odor_list = ["c", "f", "l", "m", "n", "p", "s", "y"]
+gill_color_list = ["e", "g", "h", "k", "n", "o", "p", "r", "u", "w", "y"]
+stalk_root_list = ["c", "e", "r"]
+stalk_surface_list = ['k', 's', 'y']
+stalk_color_list = ["c", "e", "g", "n", "o", "p", "w", "y"]
+veil_color_list = ["o", "w", "y"]
+ring_number_list = ['o', 't']
+ring_type_list = ['f', 'l', 'n', 'p']
+spore_print_color_list = ['h', 'k', 'n', 'o', 'r', 'u', 'w', 'y']
+population_list = ['c', 'n', 's', 'v', 'y']
+habitat_list = ['g', 'l', 'm', 'p', 'u', 'w']
+
 class MushroomSchema(BaseModel):
     cap_shape: str
     cap_surface: str
@@ -35,42 +50,21 @@ class MushroomSchema(BaseModel):
 def build_features(m: MushroomSchema):
 
     cap_shape = [
-        1 if m.cap_shape == "c" else 0,
-        1 if m.cap_shape == "f" else 0,
-        1 if m.cap_shape == "k" else 0,
-        1 if m.cap_shape == "s" else 0,
-        1 if m.cap_shape == "x" else 0,
+        1 if m.cap_shape == i else 0 for i in cap_shape_list
     ]
 
     cap_surface = [
-        1 if m.cap_surface == "g" else 0,
-        1 if m.cap_surface == "s" else 0,
-        1 if m.cap_surface == "y" else 0,
+        1 if m.cap_surface == i else 0 for i in cap_surface_list
     ]
 
     cap_color = [
-        1 if m.cap_color == "c" else 0,
-        1 if m.cap_color == "e" else 0,
-        1 if m.cap_color == "g" else 0,
-        1 if m.cap_color == "n" else 0,
-        1 if m.cap_color == "p" else 0,
-        1 if m.cap_color == "r" else 0,
-        1 if m.cap_color == "u" else 0,
-        1 if m.cap_color == "w" else 0,
-        1 if m.cap_color == "y" else 0,
+        1 if m.cap_color == i else 0 for i in cap_color_list
     ]
 
     bruises = [1 if m.bruises == "t" else 0]
 
     odor = [
-        1 if m.odor == "c" else 0,
-        1 if m.odor == "f" else 0,
-        1 if m.odor == "l" else 0,
-        1 if m.odor == "m" else 0,
-        1 if m.odor == "n" else 0,
-        1 if m.odor == "p" else 0,
-        1 if m.odor == "s" else 0,
-        1 if m.odor == "y" else 0,
+        1 if m.odor == i else 0 for i in odor_list
     ]
 
     gill_attachment = [1 if m.gill_attachment == "f" else 0]
@@ -80,105 +74,53 @@ def build_features(m: MushroomSchema):
     gill_size = [1 if m.gill_size == "n" else 0]
 
     gill_color = [
-        1 if m.gill_color == "e" else 0,
-        1 if m.gill_color == "g" else 0,
-        1 if m.gill_color == "h" else 0,
-        1 if m.gill_color == "k" else 0,
-        1 if m.gill_color == "n" else 0,
-        1 if m.gill_color == "o" else 0,
-        1 if m.gill_color == "p" else 0,
-        1 if m.gill_color == "r" else 0,
-        1 if m.gill_color == "u" else 0,
-        1 if m.gill_color == "w" else 0,
-        1 if m.gill_color == "y" else 0,
+        1 if m.gill_color == i else 0 for i in gill_color_list
     ]
 
     stalk_shape = [1 if m.stalk_shape == "t" else 0]
 
     stalk_root = [
-        1 if m.stalk_root == "c" else 0,
-        1 if m.stalk_root == "e" else 0,
-        1 if m.stalk_root == "r" else 0,
+        1 if m.stalk_root == i else 0 for i in stalk_root_list
     ]
 
     stalk_surface_above = [
-        1 if m.stalk_surface_above_ring == "k" else 0,
-        1 if m.stalk_surface_above_ring == "s" else 0,
-        1 if m.stalk_surface_above_ring == "y" else 0,
+        1 if m.stalk_surface_above_ring == i else 0 for i in stalk_surface_list
     ]
 
     stalk_surface_below = [
-        1 if m.stalk_surface_below_ring == "k" else 0,
-        1 if m.stalk_surface_below_ring == "s" else 0,
-        1 if m.stalk_surface_below_ring == "y" else 0,
+        1 if m.stalk_surface_below_ring == i else 0 for i in stalk_surface_list
     ]
 
     stalk_color_above = [
-        1 if m.stalk_color_above_ring == "c" else 0,
-        1 if m.stalk_color_above_ring == "e" else 0,
-        1 if m.stalk_color_above_ring == "g" else 0,
-        1 if m.stalk_color_above_ring == "n" else 0,
-        1 if m.stalk_color_above_ring == "o" else 0,
-        1 if m.stalk_color_above_ring == "p" else 0,
-        1 if m.stalk_color_above_ring == "w" else 0,
-        1 if m.stalk_color_above_ring == "y" else 0,
+        1 if m.stalk_color_above_ring == i else 0 for i in stalk_color_list
     ]
 
     stalk_color_below = [
-        1 if m.stalk_color_below_ring == "c" else 0,
-        1 if m.stalk_color_below_ring == "e" else 0,
-        1 if m.stalk_color_below_ring == "g" else 0,
-        1 if m.stalk_color_below_ring == "n" else 0,
-        1 if m.stalk_color_below_ring == "o" else 0,
-        1 if m.stalk_color_below_ring == "p" else 0,
-        1 if m.stalk_color_below_ring == "w" else 0,
-        1 if m.stalk_color_below_ring == "y" else 0,
+        1 if m.stalk_color_below_ring == i else 0 for i in stalk_color_list
     ]
 
     veil_color = [
-        1 if m.veil_color == "o" else 0,
-        1 if m.veil_color == "w" else 0,
-        1 if m.veil_color == "y" else 0,
+        1 if m.veil_color == i else 0 for i in veil_color_list
     ]
 
     ring_number = [
-        1 if m.ring_number == "o" else 0,
-        1 if m.ring_number == "t" else 0,
+        1 if m.ring_number == i else 0 for i in ring_number_list
     ]
 
     ring_type = [
-        1 if m.ring_type == "f" else 0,
-        1 if m.ring_type == "l" else 0,
-        1 if m.ring_type == "n" else 0,
-        1 if m.ring_type == "p" else 0,
+        1 if m.ring_type == i else 0 for i in ring_type_list
     ]
 
     spore_print = [
-        1 if m.spore_print_color == "h" else 0,
-        1 if m.spore_print_color == "k" else 0,
-        1 if m.spore_print_color == "n" else 0,
-        1 if m.spore_print_color == "o" else 0,
-        1 if m.spore_print_color == "r" else 0,
-        1 if m.spore_print_color == "u" else 0,
-        1 if m.spore_print_color == "w" else 0,
-        1 if m.spore_print_color == "y" else 0,
+        1 if m.spore_print_color == i else 0 for i in spore_print_color_list
     ]
 
     population = [
-        1 if m.population == "c" else 0,
-        1 if m.population == "n" else 0,
-        1 if m.population == "s" else 0,
-        1 if m.population == "v" else 0,
-        1 if m.population == "y" else 0,
+        1 if m.population == i else 0 for i in population_list
     ]
 
     habitat = [
-        1 if m.habitat == "g" else 0,
-        1 if m.habitat == "l" else 0,
-        1 if m.habitat == "m" else 0,
-        1 if m.habitat == "p" else 0,
-        1 if m.habitat == "u" else 0,
-        1 if m.habitat == "w" else 0,
+        1 if m.habitat == i else 0 for i in habitat_list
     ]
 
     return (
@@ -204,7 +146,6 @@ def build_features(m: MushroomSchema):
         + population
         + habitat
     )
-
 
 @app.post('/predict-logistic')
 async def predict_logistic(m: MushroomSchema):
